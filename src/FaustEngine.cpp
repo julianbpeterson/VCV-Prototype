@@ -37,6 +37,7 @@
 #include <faust/dsp/libfaust.h>
 #include <faust/gui/DecoratorUI.h>
 #include <faust/gui/ValueConverter.h>
+#include <faust/gui/SoundUI.h>
 
 #define kBufferSize 64
 
@@ -199,9 +200,9 @@ struct PrototypeUI : public GenericUI {
 		addBarGraph(zone);
 	}
 
-	void addSoundfile(const char* label, const char* soundpath, Soundfile** sf_zone) override {
-		WARN("Faust Prototype : 'soundfile' primitive not yet supported");
-	}
+	// void addSoundfile(const char* label, const char* soundpath, Soundfile** sf_zone) override {
+	// 	WARN("Faust Prototype : 'soundfile' primitive not yet supported");
+	// }
 
 	void declare(FAUSTFLOAT* zone, const char* key, const char* val) override {
 		static std::vector<std::string> keys = {"switch", "knob", "light_red", "light_green", "light_blue", "switchlight_red", "switchlight_green", "switchlight_blue"};
@@ -327,6 +328,7 @@ public:
 
 		// Setup UI
 		fDSP->buildUserInterface(&fPrototypeUI);
+		fDSP->buildUserInterface(&fSoundUI);
 
 		setFrameDivider(1);
 		setBufferSize(kBufferSize);
@@ -364,10 +366,12 @@ private:
 	FAUSTFLOAT** fInputs;
 	FAUSTFLOAT** fOutputs;
 	PrototypeUI fPrototypeUI;
+	SoundUI fSoundUI;
 	std::string fDSPLibraries;
 };
 
 __attribute__((constructor(1000)))
 static void constructor() {
 	addScriptEngine<FaustEngine>("dsp");
+	addScriptEngine<FaustEngine>(".dsp");
 }

@@ -13,12 +13,12 @@ DISTRIBUTABLES += $(wildcard LICENSE*)
 include $(RACK_DIR)/arch.mk
 
 DUKTAPE ?= 0
-QUICKJS ?= 1
-LUAJIT ?= 1
+QUICKJS ?= 0
+LUAJIT ?= 0
 PYTHON ?= 0
-SUPERCOLLIDER ?= 1
-VULT ?= 1
-LIBPD ?= 1
+SUPERCOLLIDER ?= 0
+VULT ?= 0
+LIBPD ?= 0
 FAUST ?= 1
 
 # Vult depends on both LuaJIT and QuickJS
@@ -255,7 +255,7 @@ DISTRIBUTABLES += faust_libraries
 
 $(libfaust):
 	cd dep && git clone "https://github.com/grame-cncm/faust.git" --recursive
-	cd dep/faust && git checkout 1dfc452a8250f3123b5100edf8c882e1cea407a1
+	cd dep/faust #&& git checkout 1dfc452a8250f3123b5100edf8c882e1cea407a1
 	cd dep/faust/build && make cmake BACKENDS=interp.cmake TARGETS=interp.cmake
 	cd dep/faust/build && make install PREFIX="$(DEP_PATH)"
 	cp -r dep/faust/libraries/* faust_libraries/
